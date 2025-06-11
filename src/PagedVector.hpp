@@ -135,9 +135,9 @@ template <typename T> class SafePagedVector : public PagedVectorBase<T, SafePage
 	std::unique_ptr<std::atomic_bool[]> m_page_flags;
 	std::mutex m_page_mutices[1 << kPageMutexCountBits];
 
-	inline std::size_t append_one() { return m_atomic_count.fetch_add(1, std::memory_order_relaxed); }
+	inline std::size_t append_one() { return m_atomic_count.fetch_add(1, std::memory_order_acq_rel); }
 	inline std::size_t append_count(std::size_t count) {
-		return m_atomic_count.fetch_add(count, std::memory_order_relaxed);
+		return m_atomic_count.fetch_add(count, std::memory_order_acq_rel);
 	}
 	inline T *upsert_page(std::size_t page_id) {
 		if (m_page_flags[page_id].load(std::memory_order_acquire))
@@ -150,18 +150,18 @@ template <typename T> class SafePagedVector : public PagedVectorBase<T, SafePage
 			this->m_pages[page_id] = std::make_unique_for_overwrite<T[]>(this->m_page_size);
 			m_page_flags[page_id].store(true, std::memory_order_release); // Set flag
 
-			m_atomic_page_count.fetch_add(1, std::memory_order_relaxed);
+			m_atomic_page_count.fetch_add(1, std::memory_order_acq_rel);
 			p_page = this->m_pages[page_id].get();
 		}
 		return p_page;
 	}
 	inline void reset(std::size_t page_total, std::size_t bits_per_page) {
-		m_atomic_count.store(0);
-		m_atomic_page_count.store(0);
+		m_atomic_count.store(0, std::memory_order_release);
+		m_atomic_page_count.store(0, std::memory_order_release);
 		m_page_flags = std::make_unique<std::atomic_bool[]>(page_total);
 	}
-	inline std::size_t get_count() const { return m_atomic_count.load(); }
-	inline std::size_t get_page_count() const { return m_atomic_page_count.load(); }
+	inline std::size_t get_count() const { return m_atomic_count.load(std::memory_order_acquire); }
+	inline std::size_t get_page_count() const { return m_atomic_page_count.load(std::memory_order_acquire); }
 	template <typename, typename> friend class PagedVectorBase;
 
 public:
