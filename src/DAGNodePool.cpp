@@ -75,7 +75,11 @@ void DAGNodePool::Flush(const myvk::Ptr<VkSparseBinder> &binder) {
 	// auto scan1_ns = ns([&]() {
 	for (const auto &[page_id, range] : m_page_write_ranges) {
 		auto *p_page = m_pages[page_id].get();
-		std::copy(p_page + range.begin, p_page + range.end, m_buffer->GetMappedPage<uint32_t>(page_id) + range.begin);
+		auto *mapped_page = m_buffer->GetMappedPage<uint32_t>(page_id);
+		if (mapped_page == nullptr) {
+			continue;
+		}
+		std::copy(p_page + range.begin, p_page + range.end, mapped_page + range.begin);
 	}
 	/* });
 	printf("scan1 %lf ms\n", (double)scan1_ns / 1000000.0); */

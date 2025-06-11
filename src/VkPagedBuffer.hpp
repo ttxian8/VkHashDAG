@@ -46,6 +46,9 @@ public:
 	}
 	template <typename T> inline T *GetMappedPage(uint32_t page_id) const {
 		assert(page_id < m_pages.size());
+		if (m_pages[page_id].allocation == VK_NULL_HANDLE) {
+			return nullptr;
+		}
 		return (T *)m_pages[page_id].p_mapped_data;
 	}
 
