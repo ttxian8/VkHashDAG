@@ -46,9 +46,6 @@ public:
 	}
 	template <typename T> inline T *GetMappedPage(uint32_t page_id) const {
 		assert(page_id < m_pages.size());
-		if (m_pages[page_id].allocation == VK_NULL_HANDLE) {
-			return nullptr;
-		}
 		return (T *)m_pages[page_id].p_mapped_data;
 	}
 
@@ -99,9 +96,9 @@ public:
 		return ret;
 	}
 
-	inline void Alloc(const myvk::Ptr<VkSparseBinder> &binder, std::ranges::input_range auto &&page_ids) {
+	inline VkResult Alloc(const myvk::Ptr<VkSparseBinder> &binder, std::ranges::input_range auto &&page_ids) {
 		if (page_ids.empty())
-			return;
+			return VK_SUCCESS;
 
 		m_exist_page_total += page_ids.size();
 		std::vector<VmaAllocation> allocations(page_ids.size());
@@ -111,8 +108,13 @@ public:
 		create_info.requiredFlags = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
 		create_info.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT;
 
-		vmaAllocateMemoryPages(m_device_ptr->GetAllocatorHandle(), &m_page_memory_requirements, &create_info,
+		VkResult result = vmaAllocateMemoryPages(m_device_ptr->GetAllocatorHandle(), &m_page_memory_requirements, &create_info,
 		                       page_ids.size(), allocations.data(), allocation_infos.data());
+		
+		if (result != VK_SUCCESS) {
+			m_exist_page_total -= page_ids.size();
+			return result;
+		}
 
 		std::vector<VkSparseMemoryBind> sparse_memory_binds;
 		sparse_memory_binds.reserve(page_ids.size());
@@ -140,6 +142,7 @@ public:
 		}
 
 		binder->Push(std::static_pointer_cast<BufferBase>(shared_from_this()), sparse_memory_binds);
+		return VK_SUCCESS;
 	}
 
 	inline void Free(const myvk::Ptr<VkSparseBinder> &binder, std::ranges::input_range auto &&page_ids) {

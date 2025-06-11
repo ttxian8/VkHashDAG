@@ -69,17 +69,42 @@ void DAGNodePool::Flush(const myvk::Ptr<VkSparseBinder> &binder) {
 	/* });
 	printf("scan0 %lf ms\n", (double)scan0_ns / 1000000.0); */
 
-	m_buffer->Alloc(binder, alloc_gpu_pages);
+	VkResult alloc_result = VK_ERROR_OUT_OF_DEVICE_MEMORY;
+	std::vector<uint32_t> alloc_pages_vec(alloc_gpu_pages.begin(), alloc_gpu_pages.end());
+	
+	for (int retry = 0; retry < 3 && alloc_result != VK_SUCCESS && !alloc_pages_vec.empty(); ++retry) {
+		size_t batch_size = alloc_pages_vec.size() >> retry; // Divide by 2^retry
+		if (batch_size == 0) batch_size = 1;
+		
+		size_t allocated = 0;
+		for (size_t i = 0; i < alloc_pages_vec.size() && alloc_result != VK_SUCCESS; i += batch_size) {
+			size_t end = std::min(i + batch_size, alloc_pages_vec.size());
+			std::vector<uint32_t> batch(alloc_pages_vec.begin() + i, alloc_pages_vec.begin() + end);
+			
+			alloc_result = m_buffer->Alloc(binder, batch);
+			if (alloc_result == VK_SUCCESS) {
+				allocated += batch.size();
+			} else {
+				break;
+			}
+		}
+		
+		if (allocated > 0 && allocated < alloc_pages_vec.size()) {
+			alloc_pages_vec.erase(alloc_pages_vec.begin(), alloc_pages_vec.begin() + allocated);
+			alloc_result = VK_ERROR_OUT_OF_DEVICE_MEMORY; // Continue retrying
+		}
+	}
+	
+	if (alloc_result != VK_SUCCESS) {
+		printf("GPU memory allocation failed in DAGNodePool::Flush() after retries\n");
+		return;
+	}
 	m_buffer->Free(binder, free_gpu_pages);
 
 	// auto scan1_ns = ns([&]() {
 	for (const auto &[page_id, range] : m_page_write_ranges) {
 		auto *p_page = m_pages[page_id].get();
-		auto *mapped_page = m_buffer->GetMappedPage<uint32_t>(page_id);
-		if (mapped_page == nullptr) {
-			continue;
-		}
-		std::copy(p_page + range.begin, p_page + range.end, mapped_page + range.begin);
+		std::copy(p_page + range.begin, p_page + range.end, m_buffer->GetMappedPage<uint32_t>(page_id) + range.begin);
 	}
 	/* });
 	printf("scan1 %lf ms\n", (double)scan1_ns / 1000000.0); */

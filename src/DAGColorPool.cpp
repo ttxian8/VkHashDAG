@@ -51,9 +51,13 @@ void DAGColorPool::Flush(const myvk::Ptr<VkSparseBinder> &binder) {
 	const auto update_pages = [&binder]<typename T>(const myvk::Ptr<VkPagedBuffer> &buffer,
 	                                                const SafePagedVector<T> &vector, uint32_t *p_flushed_page_count) {
 		uint32_t page_count = vector.GetPageCount(), flushed_page_count = *p_flushed_page_count;
-		if (flushed_page_count < page_count)
-			buffer->Alloc(binder, std::views::iota(flushed_page_count, page_count));
-		else if (page_count < flushed_page_count)
+		if (flushed_page_count < page_count) {
+			VkResult alloc_result = buffer->Alloc(binder, std::views::iota(flushed_page_count, page_count));
+			if (alloc_result != VK_SUCCESS) {
+				printf("GPU memory allocation failed in DAGColorPool::Flush()\n");
+				return;
+			}
+		} else if (page_count < flushed_page_count)
 			buffer->Free(binder, std::views::iota(page_count, flushed_page_count));
 		*p_flushed_page_count = page_count;
 	};
