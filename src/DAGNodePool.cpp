@@ -96,15 +96,16 @@ void DAGNodePool::Flush(const myvk::Ptr<VkSparseBinder> &binder) {
 	}
 	
 	if (alloc_result != VK_SUCCESS) {
-		printf("GPU memory allocation failed in DAGNodePool::Flush() after retries\n");
-		return;
+		printf("GPU memory allocation failed in DAGNodePool::Flush() after retries - continuing with existing pages\n");
 	}
 	m_buffer->Free(binder, free_gpu_pages);
 
 	// auto scan1_ns = ns([&]() {
 	for (const auto &[page_id, range] : m_page_write_ranges) {
 		auto *p_page = m_pages[page_id].get();
-		std::copy(p_page + range.begin, p_page + range.end, m_buffer->GetMappedPage<uint32_t>(page_id) + range.begin);
+		if (m_buffer->IsPageExist(page_id)) {
+			std::copy(p_page + range.begin, p_page + range.end, m_buffer->GetMappedPage<uint32_t>(page_id) + range.begin);
+		}
 	}
 	/* });
 	printf("scan1 %lf ms\n", (double)scan1_ns / 1000000.0); */
