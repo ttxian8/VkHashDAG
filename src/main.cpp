@@ -5,6 +5,7 @@
 #include <myvk/Queue.hpp>
 
 #include <hashdag/VBREditor.hpp>
+#include <hashdag/VoxImporter.hpp>
 
 #include "Camera.hpp"
 #include "DAGColorPool.hpp"
@@ -16,6 +17,8 @@
 #include <chrono>
 #include <glm/gtc/type_ptr.hpp>
 #include <libfork/schedule/busy_pool.hpp>
+#include <cstring>
+#include <array>
 
 constexpr uint32_t kFrameCount = 3;
 
@@ -148,6 +151,8 @@ template <EditMode Mode = EditMode::kFill> struct SphereEditor {
 		return Mode == EditMode::kFill ? voxel || in_range : voxel;
 	}
 };
+
+
 
 template <typename Func> inline long ns(Func &&func) {
 	auto begin = std::chrono::high_resolution_clock::now();
@@ -375,6 +380,20 @@ int main() {
 			printf("GC cost %lf ms\n", (double)gc_ns / 1000000.0);
 			auto flush_ns = ns([&]() { flush(); });
 			printf("flush cost %lf ms\n", (double)flush_ns / 1000000.0);
+		}
+		
+		if (ImGui::Button("Import VOX")) {
+			static char file_path[256] = "";
+			if (ImGui::InputText("VOX File Path", file_path, sizeof(file_path), ImGuiInputTextFlags_EnterReturnsTrue)) {
+				static hashdag::VoxImporter vox_importer;
+				if (vox_importer.LoadFromFile(std::string(file_path))) {
+					vox_importer.offset = {20000, 20000, 20000};
+					push_edit(vbr_edit, vox_importer);
+					printf("VOX file imported: %s\n", file_path);
+				} else {
+					printf("Failed to load VOX file: %s\n", file_path);
+				}
+			}
 		}
 		const auto imgui_paged_buffer_info = [](const char *name, const myvk::Ptr<VkPagedBuffer> &buffer) {
 			ImGui::Text("%s: %u / %u Page, %.2lf MiB", name, buffer->GetExistPageTotal(), buffer->GetPageTotal(),
