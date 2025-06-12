@@ -1,19 +1,65 @@
-<!-- Custom head content for VkHashDAG documentation -->
+<!-- VkHashDAG Modern Documentation Theme -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2563eb">
+
+<!-- Preload fonts for better performance -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  }
-</style>
+<!-- Modern favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
-<!-- Theme toggle functionality -->
+<!-- Theme initialization script -->
 <script>
-  // Theme toggle functionality
+  // Initialize theme before page load to prevent flash
   (function() {
-    const theme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('vk-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    
     document.documentElement.setAttribute('data-theme', theme);
+    
+    // Add theme class to body for compatibility
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark-theme');
+    }
   })();
 </script>
+
+<!-- Enhanced meta tags for better SEO -->
+<meta name="description" content="Comprehensive documentation for VkHashDAG - GPU-accelerated voxel rendering with sophisticated HashDAG implementation and VBR color compression.">
+<meta name="keywords" content="VkHashDAG, voxel rendering, GPU acceleration, Vulkan, HashDAG, VBR compression, documentation">
+<meta name="author" content="VkHashDAG Project">
+
+<!-- Open Graph meta tags -->
+<meta property="og:title" content="VkHashDAG Documentation">
+<meta property="og:description" content="Modern documentation for GPU-accelerated voxel rendering with HashDAG data structures">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://ttxian8.github.io/VkHashDAG/assets/og-image.png">
+
+<!-- Twitter Card meta tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VkHashDAG Documentation">
+<meta name="twitter:description" content="Modern documentation for GPU-accelerated voxel rendering">
+
+<!-- Performance optimizations -->
+<link rel="dns-prefetch" href="//github.com">
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+
+<!-- Custom CSS variables for theme compatibility -->
+<style>
+  :root {
+    --vk-transition-duration: 0.2s;
+    --vk-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Prevent flash of unstyled content */
+  .js-loading {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .js-loaded {
+    opacity: 1;
+  }
+</style>
