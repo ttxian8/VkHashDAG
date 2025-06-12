@@ -1,4 +1,22 @@
-# VkHashDAG
+---
+layout: default
+title: Project Overview
+nav_order: 2
+description: "VkHashDAG project overview, features, and quick start guide"
+---
+
+# VkHashDAG Project Overview
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
+
+## About VkHashDAG
 
 [![Linux GCC](https://github.com/ttxian8/VkHashDAG/actions/workflows/linux.yml/badge.svg)](https://github.com/ttxian8/VkHashDAG/actions/workflows/linux.yml)
 [![Windows MSVC](https://github.com/ttxian8/VkHashDAG/actions/workflows/windows-msvc.yml/badge.svg)](https://github.com/ttxian8/VkHashDAG/actions/workflows/windows-msvc.yml)

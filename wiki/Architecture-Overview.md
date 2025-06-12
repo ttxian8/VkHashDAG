@@ -1,4 +1,20 @@
+---
+layout: default
+title: Architecture Overview
+nav_order: 4
+description: "High-level system design and component relationships in VkHashDAG"
+---
+
 # Architecture Overview
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 VkHashDAG implements a sophisticated memory-efficient voxel rendering system using HashDAG data structures and Vulkan GPU acceleration. This document provides a high-level overview of the system architecture and component relationships.
 

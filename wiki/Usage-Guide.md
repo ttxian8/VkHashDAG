@@ -1,4 +1,20 @@
+---
+layout: default
+title: Usage Guide
+nav_order: 9
+description: "Application controls, editing modes, and practical workflows"
+---
+
 # Usage Guide
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 This guide provides practical information for using VkHashDAG, including application controls, editing modes, and workflow examples.
 

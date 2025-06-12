@@ -1,4 +1,20 @@
+---
+layout: default
+title: Build Instructions
+nav_order: 3
+description: "Complete build and installation guide for VkHashDAG on Linux and Windows"
+---
+
 # Build Instructions
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 This guide provides complete instructions for building VkHashDAG on different platforms.
 

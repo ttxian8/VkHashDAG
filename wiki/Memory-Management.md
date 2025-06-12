@@ -1,4 +1,20 @@
+---
+layout: default
+title: Memory Management
+nav_order: 6
+description: "DAGNodePool and DAGColorPool memory management systems"
+---
+
 # Memory Management
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 VkHashDAG implements a sophisticated memory management system that efficiently handles both CPU and GPU memory for the HashDAG data structure and VBR color system. This document details the memory architecture and allocation strategies.
 

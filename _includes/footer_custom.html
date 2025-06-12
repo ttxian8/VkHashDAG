@@ -1,0 +1,33 @@
+<!-- Custom footer content for VkHashDAG documentation -->
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light theme">
+  <span id="theme-icon">🌙</span>
+</button>
+
+<script>
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  // Update icon
+  const icon = document.getElementById('theme-icon');
+  icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+}
+
+// Initialize theme icon
+document.addEventListener('DOMContentLoaded', function() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const icon = document.getElementById('theme-icon');
+  icon.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+});
+
+// Enhanced search functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.querySelector('.search-input');
+  if (searchInput) {
+    searchInput.setAttribute('placeholder', '🔍 Search documentation...');
+  }
+});
+</script>

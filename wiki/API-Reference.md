@@ -1,4 +1,20 @@
+---
+layout: default
+title: API Reference
+nav_order: 8
+description: "Complete class and interface documentation with examples"
+---
+
 # API Reference
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 This document provides a comprehensive reference for the key classes and interfaces in VkHashDAG.
 

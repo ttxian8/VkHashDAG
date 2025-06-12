@@ -1,0 +1,200 @@
+// Custom styling for VkHashDAG documentation
+// Modern, clean design with enhanced visual appeal
+
+// Color scheme variables
+:root {
+  --vk-primary: #2563eb;
+  --vk-primary-dark: #1d4ed8;
+  --vk-accent: #06b6d4;
+  --vk-success: #10b981;
+  --vk-warning: #f59e0b;
+  --vk-error: #ef4444;
+  --vk-gradient: linear-gradient(135deg, var(--vk-primary) 0%, var(--vk-accent) 100%);
+}
+
+// Enhanced header styling
+.site-header {
+  background: var(--vk-gradient);
+  border-bottom: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  
+  .site-title {
+    color: white !important;
+    font-weight: 700;
+    font-size: 1.5rem;
+    
+    &:hover {
+      color: rgba(255, 255, 255, 0.9) !important;
+    }
+  }
+}
+
+// Modern navigation styling
+.main-nav {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  
+  .nav-list-item {
+    margin: 0.25rem 0;
+    
+    .nav-list-link {
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background: rgba(37, 99, 235, 0.1);
+        transform: translateX(4px);
+      }
+      
+      &.active {
+        background: var(--vk-gradient);
+        color: white;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Enhanced search styling
+.search-input-wrap {
+  position: relative;
+  
+  .search-input {
+    border-radius: 25px;
+    border: 2px solid rgba(37, 99, 235, 0.2);
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    transition: all 0.2s ease;
+    
+    &:focus {
+      border-color: var(--vk-primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+  }
+  
+  &::before {
+    content: "🔍";
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+}
+
+// Modern button styling
+.btn {
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  
+  &.btn-primary {
+    background: var(--vk-gradient);
+    border: none;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    }
+  }
+}
+
+// Enhanced code blocks
+.highlight {
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  
+  pre {
+    margin: 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  }
+}
+
+// Modern table styling
+table {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  
+  th {
+    background: var(--vk-gradient);
+    color: white;
+    font-weight: 600;
+  }
+  
+  tr:nth-child(even) {
+    background: rgba(37, 99, 235, 0.02);
+  }
+}
+
+// Theme toggle button
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  background: var(--vk-gradient);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Dark theme styles
+[data-theme="dark"] {
+  --vk-primary: #3b82f6;
+  --vk-primary-dark: #2563eb;
+  
+  .main-nav {
+    background: rgba(30, 41, 59, 0.98);
+    border-right-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .search-input {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: white;
+  }
+  
+  table tr:nth-child(even) {
+    background: rgba(59, 130, 246, 0.05);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .main-nav .nav-list-link {
+    padding: 0.75rem 1rem;
+  }
+}
+
+// Smooth animations
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+// Enhanced focus states for accessibility
+*:focus {
+  outline: 2px solid var(--vk-primary);
+  outline-offset: 2px;
+}

@@ -1,4 +1,20 @@
+---
+layout: default
+title: HashDAG Implementation
+nav_order: 5
+description: "Core data structures and algorithms for HashDAG sparse voxel representation"
+---
+
 # HashDAG Implementation
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 The HashDAG (Hash-based Directed Acyclic Graph) is the core data structure that enables memory-efficient sparse voxel representation. This document details the implementation of the HashDAG system in VkHashDAG.
 

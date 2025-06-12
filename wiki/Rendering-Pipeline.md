@@ -1,4 +1,20 @@
+---
+layout: default
+title: Rendering Pipeline
+nav_order: 7
+description: "Vulkan rendering passes and GPU resource management"
+---
+
 # Rendering Pipeline
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 VkHashDAG implements a modern Vulkan-based rendering pipeline optimized for real-time ray tracing through HashDAG data structures. This document details the rendering architecture, shader pipeline, and GPU resource management.
 
