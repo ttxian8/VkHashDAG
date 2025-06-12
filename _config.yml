@@ -1,0 +1,37 @@
+# Jekyll configuration for GitHub Pages
+title: VkHashDAG Documentation
+description: Comprehensive documentation for VkHashDAG - A high-performance Vulkan implementation of HashDAG
+baseurl: "/VkHashDAG"
+url: "https://ttxian8.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# Navigation
+header_pages:
+  - wiki/Home.md
+  - wiki/Build-Instructions.md
+  - wiki/Architecture-Overview.md
+  - wiki/HashDAG-Implementation.md
+  - wiki/Memory-Management.md
+  - wiki/Rendering-Pipeline.md
+  - wiki/API-Reference.md
+  - wiki/Usage-Guide.md
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Exclude files
+exclude:
+  - build/
+  - shader/include/
+  - dep/
+  - src/
+  - include/
+  - test/
+  - CMakeLists.txt
+  - README.md
